@@ -11,15 +11,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import me.partypronl.quibble.ui.theme.QuibbleTheme
+import me.partypronl.quibble.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            QuibbleTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            AppTheme(dynamicColor = false) {
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                ) { innerPadding ->
                     Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
@@ -41,7 +43,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    QuibbleTheme {
+    AppTheme(dynamicColor = false) {
         Greeting("Android")
     }
 }
