@@ -7,5 +7,6 @@ data class Route(
     val id: String,
     val name: String,
     val icon: @Composable (() -> Unit),
-    val page: @Composable ((innerPadding: PaddingValues) -> Unit)
+    val page: @Composable ((innerPadding: PaddingValues) -> Unit),
+    val fab: @Composable (() -> Unit)? = null
 )

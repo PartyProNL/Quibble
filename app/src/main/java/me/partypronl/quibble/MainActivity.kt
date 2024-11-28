@@ -61,7 +61,8 @@ class MainActivity : ComponentActivity() {
                             routes = routes,
                             currentRouteId = currentRoute.id,
                             onSelectPage = { currentRoute = routes.find { route -> route.id == it }!! })
-                    }
+                    },
+                    floatingActionButton = { currentRoute.fab?.invoke() }
                 ) { innerPadding ->
                     RouterView(currentRoute, innerPadding)
                 }
