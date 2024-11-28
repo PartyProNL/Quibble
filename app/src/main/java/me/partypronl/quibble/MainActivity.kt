@@ -5,11 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,8 +19,8 @@ import me.partypronl.quibble.routing.Route
 import me.partypronl.quibble.ui.theme.AppTheme
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
-import me.partypronl.quibble.pages.HomePage
-import me.partypronl.quibble.pages.HomePageCreateFAB
+import me.partypronl.quibble.pages.home.HomePage
+import me.partypronl.quibble.pages.home.HomePageCreateFAB
 import me.partypronl.quibble.routing.RouterView
 
 class MainActivity : ComponentActivity() {
