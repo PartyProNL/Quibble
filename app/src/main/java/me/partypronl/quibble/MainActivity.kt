@@ -23,6 +23,8 @@ import me.partypronl.quibble.routing.Route
 import me.partypronl.quibble.ui.theme.AppTheme
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import me.partypronl.quibble.pages.HomePage
+import me.partypronl.quibble.pages.HomePageCreateFAB
 import me.partypronl.quibble.routing.RouterView
 
 class MainActivity : ComponentActivity() {
@@ -36,7 +38,8 @@ class MainActivity : ComponentActivity() {
                         id = "home",
                         name = "Home",
                         icon = { Icon(painterResource(R.drawable.baseline_menu_book_24), "Book") },
-                        page = { Text("Home") }
+                        page = { innerPadding -> HomePage(innerPadding = innerPadding) },
+                        fab = { HomePageCreateFAB() }
                     ),
                     Route(
                         id = "search",
