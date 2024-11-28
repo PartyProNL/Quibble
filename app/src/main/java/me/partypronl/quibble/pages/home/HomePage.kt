@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -55,10 +56,20 @@ fun HomePage(innerPadding: PaddingValues) {
 
 @Composable
 fun HomePageCreateFAB() {
+    var isDialogOpen by remember { mutableStateOf(false) }
+
+    if(isDialogOpen) {
+        HomeNewEntryModal(
+            onDismissRequest = { isDialogOpen = false }
+        )
+    }
+
     ExtendedFloatingActionButton(
         text = { Text("New entry") },
         icon = { Icon(painterResource(R.drawable.baseline_draw_24), "Pen") },
-        onClick = {}
+        onClick = {
+            isDialogOpen = true
+        }
     )
 }
 
