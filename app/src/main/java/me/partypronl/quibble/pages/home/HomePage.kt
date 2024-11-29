@@ -51,6 +51,8 @@ fun HomePage(innerPadding: PaddingValues) {
             onDateSelected = { selectedDate = it },
             currentDate = selectedDate
         )
+
+        HomeNoEntries()
     }
 }
 
