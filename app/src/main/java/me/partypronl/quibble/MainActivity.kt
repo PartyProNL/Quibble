@@ -36,23 +36,26 @@ class MainActivity : ComponentActivity() {
             AppTheme(dynamicColor = false) {
                 val routes = listOf(
                     Route(
-                        address = "home",
+                        address = "/home",
                         name = "Home",
                         icon = { Icon(painterResource(R.drawable.baseline_menu_book_24), "Book") },
                         page = { innerPadding -> HomePage(innerPadding = innerPadding) },
-                        fab = { HomePageCreateFAB() }
+                        fab = { HomePageCreateFAB() },
+                        onNavigationBar = true
                     ),
                     Route(
-                        address = "search",
+                        address = "/search",
                         name = "Search",
                         icon = { Icon(painterResource(R.drawable.baseline_search_24), "Search") },
-                        page = { Text("Search") }
+                        page = { Text("Search") },
+                        onNavigationBar = true
                     ),
                     Route(
-                        address = "you",
+                        address = "/you",
                         name = "You",
                         icon = { Icon(painterResource(R.drawable.baseline_person_24), "Person") },
-                        page = { Text("You") }
+                        page = { Text("You") },
+                        onNavigationBar = true
                     )
                 )
 

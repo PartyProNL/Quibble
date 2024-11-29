@@ -43,7 +43,7 @@ fun formatDate(date: Long): String {
     return dateText
 }
 
-var fabDate = DateUtil.getToday()
+private var fabDate = DateUtil.getToday()
 
 @Composable
 fun HomePage(innerPadding: PaddingValues) {

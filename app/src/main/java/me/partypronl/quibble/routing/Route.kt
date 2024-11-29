@@ -6,7 +6,8 @@ import androidx.compose.runtime.Composable
 data class Route(
     val address: String,
     val name: String,
-    val icon: @Composable (() -> Unit),
+    val icon: @Composable (() -> Unit)? = null,
     val page: @Composable ((innerPadding: PaddingValues) -> Unit),
-    val fab: @Composable (() -> Unit)? = null
+    val fab: @Composable (() -> Unit)? = null,
+    val onNavigationBar: Boolean = false
 )

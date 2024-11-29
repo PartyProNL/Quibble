@@ -9,4 +9,7 @@ class JournalPictureEntry: JournalEntryType(
     "Picture",
     { Icon(painterResource(R.drawable.baseline_image_24), "Picture")  }
 ) {
+    override fun openCreatePage(date: Long) {
+
+    }
 }

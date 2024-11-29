@@ -70,7 +70,7 @@ fun HomeNewEntryModal(
                             .padding(16.dp)
                             .fillMaxWidth()
                             .clickable(onClick = {
-                                setRouteAddress("search")
+                                type.openCreatePage(date)
                             }),
                         verticalAlignment = Alignment.CenterVertically
                     ) {

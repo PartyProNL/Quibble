@@ -7,6 +7,8 @@ abstract class JournalEntryType(
     val name: String,
     val icon: @Composable () -> Unit
 ) {
+    abstract fun openCreatePage(date: Long)
+
     companion object {
         val types = mutableListOf<JournalEntryType>(
             JournalTextEntry(),

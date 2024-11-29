@@ -9,4 +9,7 @@ class JournalColumnEntry: JournalEntryType(
     "Column",
     { Icon(painterResource(R.drawable.baseline_newspaper_24), "Newspaper")  }
 ) {
+    override fun openCreatePage(date: Long) {
+
+    }
 }
