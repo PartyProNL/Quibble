@@ -10,9 +10,9 @@ fun QuibbleNavigationBar(routes: List<Route>, currentRouteId: String, onSelectPa
     NavigationBar {
         routes.forEach { route ->
             NavigationBarItem(
-                selected = currentRouteId == route.id,
+                selected = currentRouteId == route.address,
                 label = { Text(route.name) },
-                onClick = { onSelectPage(route.id) },
+                onClick = { onSelectPage(route.address) },
                 icon = route.icon
             )
         }

@@ -24,6 +24,11 @@ import me.partypronl.quibble.pages.home.HomePageCreateFAB
 import me.partypronl.quibble.routing.RouterView
 
 class MainActivity : ComponentActivity() {
+    companion object {
+        lateinit var setRoute: (route: Route) -> Unit
+        lateinit var setRouteAddress: (address: String) -> Unit
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,20 +36,20 @@ class MainActivity : ComponentActivity() {
             AppTheme(dynamicColor = false) {
                 val routes = listOf(
                     Route(
-                        id = "home",
+                        address = "home",
                         name = "Home",
                         icon = { Icon(painterResource(R.drawable.baseline_menu_book_24), "Book") },
                         page = { innerPadding -> HomePage(innerPadding = innerPadding) },
                         fab = { HomePageCreateFAB() }
                     ),
                     Route(
-                        id = "search",
+                        address = "search",
                         name = "Search",
                         icon = { Icon(painterResource(R.drawable.baseline_search_24), "Search") },
                         page = { Text("Search") }
                     ),
                     Route(
-                        id = "you",
+                        address = "you",
                         name = "You",
                         icon = { Icon(painterResource(R.drawable.baseline_person_24), "Person") },
                         page = { Text("You") }
@@ -53,13 +58,22 @@ class MainActivity : ComponentActivity() {
 
                 var currentRoute by remember { mutableStateOf(routes[0]) }
 
+                setRoute = {
+                    currentRoute = it
+                }
+
+                setRouteAddress = {
+                    val route = routes.find { route -> route.address == it }
+                    if(route != null) currentRoute = route
+                }
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         QuibbleNavigationBar(
                             routes = routes,
-                            currentRouteId = currentRoute.id,
-                            onSelectPage = { currentRoute = routes.find { route -> route.id == it }!! })
+                            currentRouteId = currentRoute.address,
+                            onSelectPage = { currentRoute = routes.find { route -> route.address == it }!! })
                     },
                     floatingActionButton = { currentRoute.fab?.invoke() }
                 ) { innerPadding ->
