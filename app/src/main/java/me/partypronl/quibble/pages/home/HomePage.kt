@@ -7,6 +7,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -42,9 +43,15 @@ fun formatDate(date: Long): String {
     return dateText
 }
 
+var fabDate = DateUtil.getToday()
+
 @Composable
 fun HomePage(innerPadding: PaddingValues) {
     var selectedDate by remember { mutableLongStateOf(DateUtil.getToday()) }
+
+    LaunchedEffect(selectedDate) {
+        fabDate = selectedDate
+    }
 
     Column(modifier = Modifier.padding(innerPadding)) {
         HomeTopBar(
@@ -62,6 +69,7 @@ fun HomePageCreateFAB() {
 
     if(isDialogOpen) {
         HomeNewEntryModal(
+            fabDate,
             onDismissRequest = { isDialogOpen = false }
         )
     }

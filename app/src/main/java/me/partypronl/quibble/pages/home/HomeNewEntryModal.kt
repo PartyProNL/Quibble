@@ -25,6 +25,7 @@ import me.partypronl.quibble.entry.JournalEntryType
 
 @Composable
 fun HomeNewEntryModal(
+    date: Long,
     onDismissRequest: () -> Unit
 ) {
     Dialog(

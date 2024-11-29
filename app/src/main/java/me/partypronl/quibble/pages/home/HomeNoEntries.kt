@@ -39,7 +39,7 @@ fun HomeNoEntries() {
         )
 
         Text(
-            text = "Start writing your first for this day now"
+            text = "Add your first for this day now"
         )
     }
 }
