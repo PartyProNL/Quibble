@@ -4,6 +4,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.ui.res.painterResource
 import me.partypronl.quibble.MainActivity.Companion.setRoute
 import me.partypronl.quibble.R
+import me.partypronl.quibble.pages.entry.text.WriteTextEntryPage
+import me.partypronl.quibble.pages.entry.text.WriteTextEntryTopBar
 import me.partypronl.quibble.routing.Route
 
 class JournalTextEntry: JournalEntryType(
@@ -15,7 +17,8 @@ class JournalTextEntry: JournalEntryType(
         val route = Route(
             "/entry/text",
             "New text entry",
-            page = {}
+            page = { WriteTextEntryPage(it) },
+            topBar = { WriteTextEntryTopBar() }
         )
 
         setRoute(route)

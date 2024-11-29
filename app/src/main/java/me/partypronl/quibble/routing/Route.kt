@@ -9,5 +9,6 @@ data class Route(
     val icon: @Composable (() -> Unit)? = null,
     val page: @Composable ((innerPadding: PaddingValues) -> Unit),
     val fab: @Composable (() -> Unit)? = null,
+    val topBar: @Composable (() -> Unit)? = null,
     val onNavigationBar: Boolean = false
 )
