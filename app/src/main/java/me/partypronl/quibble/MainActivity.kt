@@ -19,6 +19,7 @@ import me.partypronl.quibble.routing.Route
 import me.partypronl.quibble.ui.theme.AppTheme
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import me.partypronl.quibble.data.DatabaseManager
 import me.partypronl.quibble.pages.home.HomePage
 import me.partypronl.quibble.pages.home.HomePageCreateFAB
 import me.partypronl.quibble.routing.RouterView
@@ -31,6 +32,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        DatabaseManager(this.applicationContext)
+
         enableEdgeToEdge()
         setContent {
             AppTheme(dynamicColor = false) {

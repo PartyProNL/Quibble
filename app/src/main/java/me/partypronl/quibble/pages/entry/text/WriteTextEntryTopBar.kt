@@ -24,7 +24,7 @@ fun WriteTextEntryTopBar() {
         },
         actions = {
             IconButton(onClick = {
-                // TODO Save and re-open home
+                // TODO Save and re-open home on selected date
             }) {
                 Icon(painterResource(R.drawable.baseline_save_24), "Save")
             }
