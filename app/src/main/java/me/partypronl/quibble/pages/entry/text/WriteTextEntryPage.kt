@@ -3,6 +3,7 @@ package me.partypronl.quibble.pages.entry.text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
@@ -46,12 +47,13 @@ fun WriteTextEntryPage(
             }
         }
 
-        Column(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
+        Column(modifier = Modifier.padding(vertical = 32.dp, horizontal = 24.dp)) {
             BasicTextField(
                 value = title,
                 onValueChange = { title = it },
-                textStyle = MaterialTheme.typography.titleLarge,
+                textStyle = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.onSurface),
                 enabled = !saving,
+                modifier = Modifier.fillMaxWidth(),
                 decorationBox = { innerTextField ->
                     if (title.isEmpty()) {
                         Text(
@@ -69,8 +71,9 @@ fun WriteTextEntryPage(
             BasicTextField(
                 value = body,
                 onValueChange = { body = it },
-                textStyle = MaterialTheme.typography.bodyLarge,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
                 enabled = !saving,
+                modifier = Modifier.fillMaxWidth(),
                 decorationBox = { innerTextField ->
                     if (body.isEmpty()) {
                         Text(

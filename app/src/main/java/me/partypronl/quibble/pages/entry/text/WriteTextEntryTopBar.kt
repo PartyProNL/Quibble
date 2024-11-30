@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,7 +29,9 @@ fun WriteTextEntryTopBar(canSave: Boolean, onSave: () -> Unit) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = {
+            IconButton(
+                modifier = Modifier.padding(start = 8.dp),
+                onClick = {
                 setRouteAddress("/home")
             }) {
                 Icon(painterResource(R.drawable.baseline_arrow_back_24), "Arrow back")
