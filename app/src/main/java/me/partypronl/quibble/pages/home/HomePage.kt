@@ -17,7 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import me.partypronl.quibble.R
+import me.partypronl.quibble.entry.JournalEntryUtils
 import me.partypronl.quibble.util.DateUtil
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -53,13 +57,34 @@ fun HomePage(innerPadding: PaddingValues) {
         fabDate = selectedDate
     }
 
+    var loading by remember { mutableStateOf(false) }
+    var entryCards by remember { mutableStateOf(listOf<@Composable () -> Unit>()) }
+
+    LaunchedEffect(selectedDate) {
+        GlobalScope.launch(Dispatchers.IO) {
+            loading = true
+            entryCards = JournalEntryUtils.getCardsForDate(selectedDate)
+            loading = false
+        }
+    }
+
     Column(modifier = Modifier.padding(innerPadding)) {
         HomeTopBar(
             onDateSelected = { selectedDate = it },
             currentDate = selectedDate
         )
 
-        HomeNoEntries()
+        if(loading) {
+            Text("Loading...")
+        } else {
+            if(entryCards.isEmpty()) {
+                HomeNoEntries()
+            } else {
+                for(card in entryCards) {
+                    card()
+                }
+            }
+        }
     }
 }
 
