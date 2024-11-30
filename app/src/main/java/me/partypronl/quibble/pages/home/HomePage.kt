@@ -2,6 +2,7 @@ package me.partypronl.quibble.pages.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -80,8 +81,12 @@ fun HomePage(innerPadding: PaddingValues) {
             if(entryCards.isEmpty()) {
                 HomeNoEntries()
             } else {
-                for(card in entryCards) {
-                    card()
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                ) {
+                    for(card in entryCards) {
+                        card()
+                    }
                 }
             }
         }

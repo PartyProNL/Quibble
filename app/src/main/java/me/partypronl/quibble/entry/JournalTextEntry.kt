@@ -1,7 +1,10 @@
 package me.partypronl.quibble.entry
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,18 +45,20 @@ class JournalTextEntry: JournalEntryType(
 
     @Composable
     fun JournalTextEntryCard(journalTextEntry: JournalTextEntryModel) {
-        Card {
-            Text(
-                text = journalTextEntry.title,
-                style = MaterialTheme.typography.titleLarge,
-            )
+        Card(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = journalTextEntry.title,
+                    style = MaterialTheme.typography.titleLarge,
+                )
 
-            Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(8.dp))
 
-            Text(
-                text = journalTextEntry.body,
-                style = MaterialTheme.typography.bodyLarge,
-            )
+                Text(
+                    text = journalTextEntry.body,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+            }
         }
     }
 }

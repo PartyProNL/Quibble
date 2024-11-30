@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -61,7 +62,8 @@ fun HomeTopBar(onDateSelected: (Long) -> Unit, currentDate: Long) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = formatDate(currentDate)
+                text = formatDate(currentDate),
+                style = MaterialTheme.typography.titleLarge
             )
         }
 
