@@ -1,11 +1,18 @@
 package me.partypronl.quibble.pages.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,6 +21,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -76,13 +84,15 @@ fun HomePage(innerPadding: PaddingValues) {
         )
 
         if(loading) {
-            Text("Loading...")
+            HomePageLoading()
         } else {
             if(entryCards.isEmpty()) {
                 HomeNoEntries()
             } else {
                 Column(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                 ) {
                     for(card in entryCards) {
                         card()
@@ -90,6 +100,26 @@ fun HomePage(innerPadding: PaddingValues) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun HomePageLoading() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(vertical = 16.dp).fillMaxSize(),
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.width(64.dp)
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        Text(
+            text = "Loading entries...",
+            style = MaterialTheme.typography.headlineMedium
+        )
     }
 }
 
