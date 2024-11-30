@@ -17,45 +17,53 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun WriteTextEntryPage(innerPadding: PaddingValues) {
+fun WriteTextEntryPage(
+    innerPadding: PaddingValues
+) {
     var title by remember { mutableStateOf("") }
     var body by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier.padding(innerPadding).padding(vertical = 8.dp, horizontal = 16.dp)
+        modifier = Modifier.padding(innerPadding)
     ) {
-        BasicTextField(
-            value = title,
-            onValueChange = { title = it },
-            textStyle = MaterialTheme.typography.titleLarge,
-            decorationBox = { innerTextField ->
-                if (title.isEmpty()) {
-                    Text(
-                        text = "Enter title here...",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                }
-                innerTextField()
-            }
-        )
+        WriteTextEntryTopBar(body != "") {
+            title = "Saving..."
+        }
 
-        Spacer(Modifier.height(16.dp))
-
-        BasicTextField(
-            value = body,
-            onValueChange = { body = it },
-            textStyle = MaterialTheme.typography.bodyLarge,
-            decorationBox = { innerTextField ->
-                if (body.isEmpty()) {
-                    Text(
-                        text = "Enter body here...",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
+        Column(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
+            BasicTextField(
+                value = title,
+                onValueChange = { title = it },
+                textStyle = MaterialTheme.typography.titleLarge,
+                decorationBox = { innerTextField ->
+                    if (title.isEmpty()) {
+                        Text(
+                            text = "Enter title here...",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
+                    innerTextField()
                 }
-                innerTextField()
-            }
-        )
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            BasicTextField(
+                value = body,
+                onValueChange = { body = it },
+                textStyle = MaterialTheme.typography.bodyLarge,
+                decorationBox = { innerTextField ->
+                    if (body.isEmpty()) {
+                        Text(
+                            text = "Enter body here...",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                    innerTextField()
+                }
+            )
+        }
     }
 }

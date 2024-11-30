@@ -15,7 +15,6 @@ import me.partypronl.quibble.R
 import me.partypronl.quibble.data.DatabaseManager
 import me.partypronl.quibble.data.models.JournalTextEntryModel
 import me.partypronl.quibble.pages.entry.text.WriteTextEntryPage
-import me.partypronl.quibble.pages.entry.text.WriteTextEntryTopBar
 import me.partypronl.quibble.routing.Route
 
 class JournalTextEntry: JournalEntryType(
@@ -27,8 +26,7 @@ class JournalTextEntry: JournalEntryType(
         val route = Route(
             "/entry/text",
             "New text entry",
-            page = { WriteTextEntryPage(it) },
-            topBar = { WriteTextEntryTopBar() }
+            page = { WriteTextEntryPage(it) }
         )
 
         setRoute(route)
