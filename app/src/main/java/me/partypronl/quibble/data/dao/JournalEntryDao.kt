@@ -9,11 +9,11 @@ import me.partypronl.quibble.data.models.JournalEntryModel
 @Dao
 interface JournalEntryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(journalEntry: JournalEntryModel)
+    suspend fun insert(journalEntry: JournalEntryModel): Long
 
     @Query("SELECT * FROM journal_entry WHERE id = :id")
-    suspend fun getJournalEntryById(id: Int): JournalEntryModel?
+    suspend fun getJournalEntryById(id: Long): JournalEntryModel?
 
     @Query("SELECT * FROM journal_entry WHERE date = :date")
-    suspend fun getJournalEntryByDate(date: Long): JournalEntryModel?
+    suspend fun getJournalEntriesByDate(date: Long): List<JournalEntryModel>
 }

@@ -12,8 +12,8 @@ interface JournalTextEntryDao {
     suspend fun insert(journalTextEntry: JournalTextEntryModel)
 
     @Query("SELECT * FROM journal_text_entry WHERE id = :id")
-    suspend fun getJournalTextEntryById(id: Int): JournalTextEntryModel?
+    suspend fun getJournalTextEntryById(id: Long): JournalTextEntryModel?
 
     @Query("SELECT * FROM journal_text_entry WHERE journalEntryId = :id")
-    suspend fun getJournalTextEntryByJournalEntryId(id: Int): JournalTextEntryModel?
+    suspend fun getJournalTextEntryByJournalEntryId(id: Long): JournalTextEntryModel?
 }

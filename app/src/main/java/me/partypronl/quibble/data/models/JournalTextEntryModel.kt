@@ -16,8 +16,8 @@ import androidx.room.PrimaryKey
     ]
 )
 data class JournalTextEntryModel(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     val title: String,
     val body: String,
-    val journalEntryId: Int
+    val journalEntryId: Long
 )
