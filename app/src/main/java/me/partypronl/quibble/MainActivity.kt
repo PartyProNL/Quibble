@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            AppTheme(dynamicColor = false) {
+            AppTheme(dynamicColor = true) {
                 val routes = listOf(
                     Route(
                         address = "/home",
