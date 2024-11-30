@@ -26,13 +26,13 @@ class JournalTextEntry: JournalEntryType(
         val route = Route(
             "/entry/text",
             "New text entry",
-            page = { WriteTextEntryPage(it) }
+            page = { WriteTextEntryPage(it, date) }
         )
 
         setRoute(route)
     }
 
-    override suspend fun getCardFromJournalEntryId(journalEntryId: Int): @Composable (() -> Unit) {
+    override suspend fun getCardFromJournalEntryId(journalEntryId: Long): @Composable (() -> Unit) {
         val journalTextEntry = DatabaseManager.instance.db.journalTextEntryDao()
             .getJournalTextEntryByJournalEntryId(journalEntryId)
 

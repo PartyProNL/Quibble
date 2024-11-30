@@ -14,7 +14,7 @@ class JournalPictureEntry: JournalEntryType(
 
     }
 
-    override suspend fun getCardFromJournalEntryId(journalEntryId: Int): @Composable (() -> Unit) {
+    override suspend fun getCardFromJournalEntryId(journalEntryId: Long): @Composable (() -> Unit) {
         return {}
     }
 }

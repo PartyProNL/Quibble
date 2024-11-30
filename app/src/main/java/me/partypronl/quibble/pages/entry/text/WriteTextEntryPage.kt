@@ -15,19 +15,35 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import me.partypronl.quibble.MainActivity.Companion.setRouteAddress
+import me.partypronl.quibble.data.DatabaseManager
+import me.partypronl.quibble.data.models.JournalEntryModel
+import me.partypronl.quibble.data.models.JournalTextEntryModel
 
 @Composable
 fun WriteTextEntryPage(
-    innerPadding: PaddingValues
+    innerPadding: PaddingValues,
+    date: Long
 ) {
     var title by remember { mutableStateOf("") }
     var body by remember { mutableStateOf("") }
+
+    var saving by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.padding(innerPadding)
     ) {
         WriteTextEntryTopBar(body != "") {
-            title = "Saving..."
+            saving = true
+
+            // Save to database
+            GlobalScope.launch(Dispatchers.IO) {
+                saveTextEntry(body, title, date)
+                setRouteAddress("/home")
+            }
         }
 
         Column(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
@@ -35,6 +51,7 @@ fun WriteTextEntryPage(
                 value = title,
                 onValueChange = { title = it },
                 textStyle = MaterialTheme.typography.titleLarge,
+                enabled = !saving,
                 decorationBox = { innerTextField ->
                     if (title.isEmpty()) {
                         Text(
@@ -53,6 +70,7 @@ fun WriteTextEntryPage(
                 value = body,
                 onValueChange = { body = it },
                 textStyle = MaterialTheme.typography.bodyLarge,
+                enabled = !saving,
                 decorationBox = { innerTextField ->
                     if (body.isEmpty()) {
                         Text(
@@ -66,4 +84,17 @@ fun WriteTextEntryPage(
             )
         }
     }
+}
+
+suspend fun saveTextEntry(body: String, title: String, date: Long) {
+    val generatedId = DatabaseManager.instance.db.journalEntryDao().insert(JournalEntryModel(
+        type = "text",
+        date = date
+    ))
+
+    DatabaseManager.instance.db.journalTextEntryDao().insert(JournalTextEntryModel(
+        title = title,
+        body = body,
+        journalEntryId = generatedId
+    ))
 }

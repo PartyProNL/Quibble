@@ -8,7 +8,7 @@ abstract class JournalEntryType(
     val icon: @Composable () -> Unit
 ) {
     abstract fun openCreatePage(date: Long)
-    abstract suspend fun getCardFromJournalEntryId(journalEntryId: Int): @Composable () -> Unit
+    abstract suspend fun getCardFromJournalEntryId(journalEntryId: Long): @Composable () -> Unit
 
     companion object {
         val types = mutableListOf<JournalEntryType>(
