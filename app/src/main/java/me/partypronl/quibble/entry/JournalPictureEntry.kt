@@ -8,12 +8,9 @@ import me.partypronl.quibble.R
 class JournalPictureEntry: JournalEntryType(
     "picture",
     "Picture",
-    { Icon(painterResource(R.drawable.baseline_image_24), "Picture")  }
+    { Icon(painterResource(R.drawable.baseline_image_24), "Picture")  },
+    "write/picture"
 ) {
-    override fun openCreatePage(date: Long) {
-
-    }
-
     override suspend fun getCardFromJournalEntryId(journalEntryId: Long): @Composable (() -> Unit) {
         return {}
     }

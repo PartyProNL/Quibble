@@ -20,12 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import me.partypronl.quibble.MainActivity.Companion.setRouteAddress
+import androidx.navigation.NavController
+import androidx.navigation.navArgument
 import me.partypronl.quibble.entry.JournalEntryType
 
 @Composable
 fun HomeNewEntryModal(
     date: Long,
+    navController: NavController,
     onDismissRequest: () -> Unit
 ) {
     Dialog(
@@ -70,7 +72,7 @@ fun HomeNewEntryModal(
                             .padding(16.dp)
                             .fillMaxWidth()
                             .clickable(onClick = {
-                                type.openCreatePage(date)
+                                navController.navigate("${type.route}/$date")
                             }),
                         verticalAlignment = Alignment.CenterVertically
                     ) {

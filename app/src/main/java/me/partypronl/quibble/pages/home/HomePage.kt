@@ -26,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -59,7 +61,7 @@ fun formatDate(date: Long): String {
 private var fabDate = DateUtil.getToday()
 
 @Composable
-fun HomePage(innerPadding: PaddingValues) {
+fun HomePage(innerPadding: PaddingValues, navController: NavController) {
     var selectedDate by remember { mutableLongStateOf(DateUtil.getToday()) }
 
     LaunchedEffect(selectedDate) {
@@ -124,13 +126,16 @@ fun HomePageLoading() {
 }
 
 @Composable
-fun HomePageCreateFAB() {
+fun HomePageCreateFAB(
+    navController: NavController
+) {
     var isDialogOpen by remember { mutableStateOf(false) }
 
     if(isDialogOpen) {
         HomeNewEntryModal(
             fabDate,
-            onDismissRequest = { isDialogOpen = false }
+            onDismissRequest = { isDialogOpen = false },
+            navController = navController
         )
     }
 
@@ -146,5 +151,5 @@ fun HomePageCreateFAB() {
 @Preview
 @Composable
 fun HomePagePreview() {
-    HomePage(PaddingValues(0.dp))
+    HomePage(PaddingValues(0.dp), rememberNavController())
 }

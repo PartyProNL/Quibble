@@ -13,27 +13,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import me.partypronl.quibble.MainActivity.Companion.setRoute
 import me.partypronl.quibble.R
 import me.partypronl.quibble.data.DatabaseManager
 import me.partypronl.quibble.data.models.JournalTextEntryModel
-import me.partypronl.quibble.pages.entry.text.WriteTextEntryPage
-import me.partypronl.quibble.routing.Route
+import me.partypronl.quibble.routing.Screen
 
 class JournalTextEntry: JournalEntryType(
     "text",
     "Text",
-    { Icon(painterResource(R.drawable.baseline_text_snippet_24), "Text")  }
+    { Icon(painterResource(R.drawable.baseline_text_snippet_24), "Text")  },
+    "write/text"
 ) {
-    override fun openCreatePage(date: Long) {
-        val route = Route(
-            "/entry/text",
-            "New text entry",
-            page = { WriteTextEntryPage(it, date) }
-        )
-
-        setRoute(route)
-    }
 
     override suspend fun getCardFromJournalEntryId(journalEntryId: Long): @Composable (() -> Unit) {
         val journalTextEntry = DatabaseManager.instance.db.journalTextEntryDao()

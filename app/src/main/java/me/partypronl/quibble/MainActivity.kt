@@ -6,26 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import me.partypronl.quibble.routing.QuibbleNavigationBar
-import me.partypronl.quibble.routing.Route
-import me.partypronl.quibble.ui.theme.AppTheme
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import me.partypronl.quibble.data.DatabaseManager
-import me.partypronl.quibble.routing.RouterView
-import me.partypronl.quibble.routing.routes
+import me.partypronl.quibble.routing.QuibbleNavigationBar
+import me.partypronl.quibble.routing.SetupNavGraph
+import me.partypronl.quibble.routing.getFabForRoute
+import me.partypronl.quibble.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
-    companion object {
-        lateinit var setRoute: (route: Route) -> Unit
-        lateinit var setRouteAddress: (address: String) -> Unit
-    }
+    lateinit var navController: NavHostController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,49 +28,24 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme(dynamicColor = true) {
-                var currentRoute by remember { mutableStateOf(routes[0]) }
+                navController = rememberNavController()
 
-                setRoute = {
-                    currentRoute = it
-                }
+                val currentDestination = navController
+                    .currentBackStackEntryAsState()
+                    .value?.destination?.route
 
-                setRouteAddress = {
-                    val route = routes.find { route -> route.address == it }
-                    if(route != null) currentRoute = route
-                }
+                val currentFab: @Composable (() -> Unit)? = getFabForRoute(currentDestination, navController)
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
-                        QuibbleNavigationBar(
-                            routes = routes,
-                            currentRouteId = currentRoute.address,
-                            onSelectPage = { currentRoute = routes.find { route -> route.address == it }!! })
+                        QuibbleNavigationBar(navController = navController)
                     },
-                    topBar = {
-                        currentRoute.topBar?.invoke()
-                    },
-                    floatingActionButton = { currentRoute.fab?.invoke() }
-                ) { innerPadding ->
-                    RouterView(currentRoute, innerPadding)
+                    floatingActionButton = { currentFab?.invoke() }
+                ) {
+                    SetupNavGraph(navController, it)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AppTheme(dynamicColor = false) {
-        Greeting("Android")
     }
 }

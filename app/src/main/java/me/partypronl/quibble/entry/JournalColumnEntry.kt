@@ -8,12 +8,9 @@ import me.partypronl.quibble.R
 class JournalColumnEntry: JournalEntryType(
     "column",
     "Column",
-    { Icon(painterResource(R.drawable.baseline_newspaper_24), "Newspaper")  }
+    { Icon(painterResource(R.drawable.baseline_newspaper_24), "Newspaper")  },
+    "write/column"
 ) {
-    override fun openCreatePage(date: Long) {
-
-    }
-
     override suspend fun getCardFromJournalEntryId(journalEntryId: Long): @Composable (() -> Unit) {
         return {}
     }

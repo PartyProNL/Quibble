@@ -14,19 +14,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import me.partypronl.quibble.MainActivity.Companion.setRouteAddress
+import kotlinx.coroutines.withContext
 import me.partypronl.quibble.data.DatabaseManager
 import me.partypronl.quibble.data.models.JournalEntryModel
 import me.partypronl.quibble.data.models.JournalTextEntryModel
+import me.partypronl.quibble.routing.Screen
 
 @Composable
 fun WriteTextEntryPage(
     innerPadding: PaddingValues,
+    navController: NavController,
     date: Long
 ) {
     var title by remember { mutableStateOf("") }
@@ -34,16 +38,21 @@ fun WriteTextEntryPage(
 
     var saving by remember { mutableStateOf(false) }
 
+    val coroutineScope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier.padding(innerPadding)
     ) {
-        WriteTextEntryTopBar(body != "") {
+        WriteTextEntryTopBar(body != "", navController) {
             saving = true
 
             // Save to database
-            GlobalScope.launch(Dispatchers.IO) {
+            coroutineScope.launch(Dispatchers.IO) {
                 saveTextEntry(body, title, date)
-                setRouteAddress("/home")
+
+                withContext(Dispatchers.Main) {
+                    navController.navigate(route = Screen.Home.route)
+                }
             }
         }
 
