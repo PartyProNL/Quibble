@@ -1,8 +1,11 @@
 package me.partypronl.quibble.routing
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 sealed class Screen(val route: String) {
-    object Home: Screen("home")
-    object WriteTextEntry: Screen("write/text/{date}")
-    object Search: Screen("search")
-    object You: Screen("you")
+    @Serializable object Home: Screen("home")
+    @Serializable object WriteTextEntry: Screen("write/text/{date}")
+    @Serializable object Search: Screen("search")
+    @Serializable object You: Screen("you")
 }
