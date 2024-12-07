@@ -19,11 +19,12 @@ import me.partypronl.quibble.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
     lateinit var navController: NavHostController
+    lateinit var databaseManager: DatabaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DatabaseManager(this.applicationContext)
+        databaseManager = DatabaseManager(this.applicationContext)
 
         enableEdgeToEdge()
         setContent {
@@ -47,5 +48,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        databaseManager.close()
     }
 }
