@@ -16,7 +16,9 @@ class DatabaseManager(context: Context) {
             context.applicationContext,
             QuibbleDatabase::class.java,
             "quibble"
-        ).build()
+        )
+            .fallbackToDestructiveMigration() // Only do this for local development!!! Not for production. Then you'll need to create a Migration instead
+            .build()
     }
 
     companion object {
