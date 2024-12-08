@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import me.partypronl.quibble.R
 import me.partypronl.quibble.data.DatabaseManager
 import me.partypronl.quibble.data.models.JournalTextEntryModel
-import me.partypronl.quibble.routing.Screen
 
 class JournalTextEntry: JournalEntryType(
     "text",
@@ -36,17 +33,14 @@ class JournalTextEntry: JournalEntryType(
 
     override suspend fun getCardFromJournalEntryId(journalEntryId: Long): @Composable (() -> Unit) {
         val journalTextEntry = DatabaseManager.instance.db.journalTextEntryDao()
-            .getJournalTextEntryByJournalEntryId(journalEntryId)
+            .getJournalTextEntryByJournalEntryId(journalEntryId) ?: return {}
 
-        if(journalTextEntry == null) return {}
         return { JournalTextEntryCard(journalTextEntry) }
     }
 
     @Composable
     fun JournalTextEntryCard(journalTextEntry: JournalTextEntryModel) {
-        Box(
-
-        ) {
+        Box {
             OutlinedCard(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.surfaceContainerLow
