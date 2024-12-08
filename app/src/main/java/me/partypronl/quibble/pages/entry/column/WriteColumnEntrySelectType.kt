@@ -81,7 +81,7 @@ fun SelectColumnTypePage(
                             headlineContent = { Text(type.name) },
                             supportingContent = { Text(type.description) },
                             modifier = Modifier.clickable {
-
+                                navController.navigate("write/column/body/$date/${type.id}")
                             },
                             trailingContent = {
                                 IconButton(onClick = {

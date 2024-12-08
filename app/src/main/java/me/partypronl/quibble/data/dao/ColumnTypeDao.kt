@@ -13,4 +13,7 @@ interface ColumnTypeDao {
 
     @Query("SELECT * FROM column_type")
     suspend fun getAll(): List<ColumnTypeModel>
+
+    @Query("SELECT * FROM column_type WHERE id=:id")
+    suspend fun getById(id: Long): ColumnTypeModel?
 }
