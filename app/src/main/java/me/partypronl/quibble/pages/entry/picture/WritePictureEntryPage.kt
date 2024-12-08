@@ -1,5 +1,11 @@
 package me.partypronl.quibble.pages.entry.picture
 
+import android.content.Intent
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
@@ -40,6 +47,18 @@ fun WritePictureEntryPage(
     var caption by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var imageURI by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+
+    val launcher = rememberLauncherForActivityResult(PickVisualMedia()) { uri ->
+        if (uri != null) {
+            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            context.contentResolver.takePersistableUriPermission(uri, flag)
+            imageURI = uri.toString()
+        } else {
+            Log.d("PhotoPicker", "No media selected")
+        }
+    }
 
     Column(
         modifier = Modifier.padding(innerPadding).padding(16.dp)
@@ -75,7 +94,7 @@ fun WritePictureEntryPage(
                 .clip(MaterialTheme.shapes.large)
                 .background(MaterialTheme.colorScheme.surfaceContainer)
                 .clickable {
-
+                    launcher.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
                 },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
