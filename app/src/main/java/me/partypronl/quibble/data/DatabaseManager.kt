@@ -30,7 +30,7 @@ class DatabaseManager(context: Context) {
 
         // Setup default column types if they don't exist
         scope.launch(Dispatchers.IO) {
-            if(db.columnTypeDao().getAll().isEmpty()) return@launch
+            if(db.columnTypeDao().getAll().isNotEmpty()) return@launch
             setupDefaultColumnTypes()
         }
     }
