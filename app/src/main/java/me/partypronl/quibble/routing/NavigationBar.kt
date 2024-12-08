@@ -42,7 +42,7 @@ fun QuibbleNavigationBar(navController: NavController, selectedPage: Int = 0) {
             selected = selectedItem == 2,
             label = { Text("You") },
             onClick = {
-                selectedItem = 1
+                selectedItem = 2
                 navController.navigate(route = Screen.You.route)
             },
             icon =  { Icon(painterResource(R.drawable.baseline_person_24), "Person") }

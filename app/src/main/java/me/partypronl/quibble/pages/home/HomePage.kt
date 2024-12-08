@@ -1,5 +1,6 @@
 package me.partypronl.quibble.pages.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,9 +72,10 @@ fun HomePage(innerPadding: PaddingValues, navController: NavController) {
 
     var loading by remember { mutableStateOf(false) }
     var entryCards by remember { mutableStateOf(listOf<@Composable () -> Unit>()) }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(selectedDate) {
-        GlobalScope.launch(Dispatchers.IO) {
+        coroutineScope.launch(Dispatchers.IO) {
             loading = true
             entryCards = JournalEntryUtils.getCardsForDate(selectedDate)
             loading = false
