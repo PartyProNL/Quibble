@@ -1,5 +1,6 @@
 package me.partypronl.quibble.pages.entry.column
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,11 +36,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.partypronl.quibble.components.LoadingMessage
 import me.partypronl.quibble.data.DatabaseManager
 import me.partypronl.quibble.data.models.ColumnTypeModel
+
+// This is a cheat! I need to scope this properly somehow, like in the navigation graph or something?
+var viewModel: WriteColumnBodyViewModel? = null
 
 @Composable
 fun WriteColumnEntryBodyPage(
@@ -47,11 +53,16 @@ fun WriteColumnEntryBodyPage(
     date: Long,
     typeId: Long
 ) {
+    if(viewModel == null) viewModel = viewModel()
+
     var loading by remember { mutableStateOf(false) }
     var columnType by remember { mutableStateOf<ColumnTypeModel?>(null) }
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
+        viewModel!!.setDate(date)
+        viewModel!!.setTypeId(typeId)
+
         coroutineScope.launch(Dispatchers.IO) {
             loading = true
             columnType = DatabaseManager.instance.db.columnTypeDao().getById(typeId)
@@ -93,7 +104,10 @@ fun WriteColumnEntryBodyPage(
 
             BasicTextField(
                 value = body,
-                onValueChange = { body = it },
+                onValueChange = {
+                    body = it
+                    viewModel!!.setBody(it)
+                },
                 textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
                 enabled = !saving,
                 modifier = Modifier.fillMaxWidth(),
@@ -117,7 +131,13 @@ fun WriteColumnEntryBodyPage(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WriteColumnEntryBodyTopBar(navController: NavController) {
+fun WriteColumnEntryBodyTopBar(
+    navController: NavController
+) {
+    if(viewModel == null) viewModel = viewModel()
+    val canSave by viewModel!!.canSave.collectAsState()
+    Log.wtf("INFO", "Can save? $canSave")
+
     TopAppBar(
         title = { Text("Write column") },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -131,8 +151,10 @@ fun WriteColumnEntryBodyTopBar(navController: NavController) {
         },
         actions = {
             TextButton(
-                onClick = {  },
-                enabled = false,
+                onClick = {
+
+                },
+                enabled = canSave,
                 modifier = Modifier.padding(end = 16.dp)
             ) {
                 Text("Save")
