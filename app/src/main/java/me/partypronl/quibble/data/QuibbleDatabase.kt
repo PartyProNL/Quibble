@@ -19,7 +19,7 @@ import me.partypronl.quibble.data.models.JournalTextEntryModel
     ColumnTypeModel::class,
     JournalColumnEntryModel::class,
     JournalPictureEntryModel::class
-], version = 4)
+], version = 5)
 abstract class QuibbleDatabase: RoomDatabase() {
     abstract fun journalEntryDao(): JournalEntryDao
     abstract fun journalTextEntryDao(): JournalTextEntryDao

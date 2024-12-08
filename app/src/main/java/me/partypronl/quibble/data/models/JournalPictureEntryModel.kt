@@ -19,6 +19,7 @@ import androidx.room.PrimaryKey
 )
 data class JournalPictureEntryModel(
     @PrimaryKey(autoGenerate = true) val id: Long = 0L,
+    val uri: String,
     val caption: String,
     val description: String,
     val journalEntryId: Long
