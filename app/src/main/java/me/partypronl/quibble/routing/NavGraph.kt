@@ -15,6 +15,8 @@ import me.partypronl.quibble.pages.entry.column.SelectColumnTypePage
 import me.partypronl.quibble.pages.entry.column.SelectColumnTypeTopBar
 import me.partypronl.quibble.pages.entry.column.WriteColumnEntryBodyPage
 import me.partypronl.quibble.pages.entry.column.WriteColumnEntryBodyTopBar
+import me.partypronl.quibble.pages.entry.picture.WritePictureEntryPage
+import me.partypronl.quibble.pages.entry.picture.WritePictureEntryTopBar
 import me.partypronl.quibble.pages.entry.text.WriteTextEntryPage
 import me.partypronl.quibble.pages.home.HomePage
 import me.partypronl.quibble.pages.home.HomePageCreateFAB
@@ -58,6 +60,12 @@ fun SetupNavGraph(
         )) {
             WriteColumnEntryBodyPage(innerPadding, navController, it.arguments!!.getLong("date"), it.arguments!!.getLong("typeId"))
         }
+
+        composable(Screen.WritePictureEntry.route, listOf(
+            navArgument("date") { type = NavType.LongType }
+        )) {
+            WritePictureEntryPage(innerPadding, navController, it.arguments!!.getLong("date"))
+        }
     }
 }
 
@@ -74,6 +82,7 @@ fun getTopAppBarForRoute(route: String?, navController: NavController): (@Compos
     return when (route) {
         Screen.WriteColumnEntry.route -> {{ SelectColumnTypeTopBar(navController) }}
         Screen.WriteColumnEntryBody.route -> {{ WriteColumnEntryBodyTopBar(navController) }}
+        Screen.WritePictureEntry.route -> {{ WritePictureEntryTopBar(navController) }}
         else -> null
     }
 }
