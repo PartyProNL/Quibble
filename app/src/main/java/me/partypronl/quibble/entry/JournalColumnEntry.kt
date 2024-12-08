@@ -82,7 +82,7 @@ class JournalColumnEntry: JournalEntryType(
                 },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(8.dp)
+                    .padding(4.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,

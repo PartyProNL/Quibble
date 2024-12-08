@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -107,7 +108,11 @@ fun WriteColumnEntryBodyPage(
 
             Text(text = columnType?.description ?: "Try again by selecting another type")
 
-            Spacer(Modifier.height(32.dp))
+            Spacer(Modifier.height(8.dp))
+
+            HorizontalDivider()
+
+            Spacer(Modifier.height(24.dp))
 
             BasicTextField(
                 value = body,
