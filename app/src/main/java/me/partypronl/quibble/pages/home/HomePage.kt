@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -34,6 +35,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.partypronl.quibble.R
+import me.partypronl.quibble.components.LoadingMessage
 import me.partypronl.quibble.entry.JournalEntryUtils
 import me.partypronl.quibble.util.DateUtil
 import java.text.SimpleDateFormat
@@ -89,7 +91,7 @@ fun HomePage(innerPadding: PaddingValues, navController: NavController) {
         )
 
         if(loading) {
-            HomePageLoading()
+            LoadingMessage("Loading entries...")
         } else {
             if(entryCards.isEmpty()) {
                 HomeNoEntries()
@@ -105,26 +107,6 @@ fun HomePage(innerPadding: PaddingValues, navController: NavController) {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun HomePageLoading() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(vertical = 16.dp).fillMaxSize(),
-        verticalArrangement = Arrangement.Center
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier.width(64.dp)
-        )
-
-        Spacer(Modifier.height(12.dp))
-
-        Text(
-            text = "Loading entries...",
-            style = MaterialTheme.typography.headlineMedium
-        )
     }
 }
 
