@@ -1,6 +1,5 @@
 package me.partypronl.quibble.pages.entry.column
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -8,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -39,9 +39,12 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.partypronl.quibble.components.LoadingMessage
 import me.partypronl.quibble.data.DatabaseManager
 import me.partypronl.quibble.data.models.ColumnTypeModel
+import me.partypronl.quibble.data.models.JournalColumnEntryModel
+import me.partypronl.quibble.data.models.JournalEntryModel
 
 // This is a cheat! I need to scope this properly somehow, like in the navigation graph or something?
 var viewModel: WriteColumnBodyViewModel? = null
@@ -71,7 +74,6 @@ fun WriteColumnEntryBodyPage(
     }
 
     var body by remember { mutableStateOf("") }
-    var saving by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -94,7 +96,12 @@ fun WriteColumnEntryBodyPage(
                         navController.navigate("write/column/$date")
                     }
                 ) {
-                    Icon(Icons.Default.Edit, "Edit")
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit",
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.size(16.dp)
+                    )
                 }
             }
 
@@ -109,7 +116,6 @@ fun WriteColumnEntryBodyPage(
                     viewModel!!.setBody(it)
                 },
                 textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
-                enabled = !saving,
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions.Default.copy(
                     capitalization = KeyboardCapitalization.Sentences
@@ -136,7 +142,9 @@ fun WriteColumnEntryBodyTopBar(
 ) {
     if(viewModel == null) viewModel = viewModel()
     val canSave by viewModel!!.canSave.collectAsState()
-    Log.wtf("INFO", "Can save? $canSave")
+
+    var saving by remember { mutableStateOf(false) }
+    var coroutineScope = rememberCoroutineScope()
 
     TopAppBar(
         title = { Text("Write column") },
@@ -152,7 +160,20 @@ fun WriteColumnEntryBodyTopBar(
         actions = {
             TextButton(
                 onClick = {
+                    saving = true
 
+                    // Save to database
+                    coroutineScope.launch(Dispatchers.IO) {
+                        saveColumnEntry(
+                            viewModel!!.body.value,
+                            viewModel!!.typeId.value,
+                            viewModel!!.date.value,
+                        )
+
+                        withContext(Dispatchers.Main) {
+                            navController.navigate(route = Screen.Home.route)
+                        }
+                    }
                 },
                 enabled = canSave,
                 modifier = Modifier.padding(end = 16.dp)
@@ -161,4 +182,17 @@ fun WriteColumnEntryBodyTopBar(
             }
         }
     )
+}
+
+suspend fun saveColumnEntry(body: String, typeId: Long, date: Long) {
+    val generatedId = DatabaseManager.instance.db.journalEntryDao().insert(JournalEntryModel(
+        type = "column",
+        date = date
+    ))
+
+    DatabaseManager.instance.db.journalColumnEntryDao().insert(JournalColumnEntryModel(
+        body = body,
+        journalEntryId = generatedId,
+        columnTypeId = typeId
+    ))
 }

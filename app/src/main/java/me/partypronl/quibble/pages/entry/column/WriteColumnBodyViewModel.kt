@@ -5,11 +5,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class WriteColumnBodyViewModel : ViewModel() {
-    private val _date = MutableStateFlow<Long?>(0)
-    val date: StateFlow<Long?> = _date
+    private val _date = MutableStateFlow<Long>(0)
+    val date: StateFlow<Long> = _date
 
-    private val _typeId = MutableStateFlow<Long?>(0)
-    val typeId: StateFlow<Long?> = _typeId
+    private val _typeId = MutableStateFlow<Long>(0)
+    val typeId: StateFlow<Long> = _typeId
 
     private val _body = MutableStateFlow<String>("")
     val body: StateFlow<String> = _body
