@@ -2,6 +2,7 @@ package me.partypronl.quibble.pages.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -64,27 +65,31 @@ fun HomeNewEntryModal(
                 for(type in JournalEntryType.types) {
                     Spacer(Modifier.height(8.dp))
 
-                    Row(
+                    Box(
                         modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                shape = RoundedCornerShape(16.dp))
-                            .padding(16.dp)
-                            .fillMaxWidth()
                             .clickable(onClick = {
                                 navController.navigate("${type.route}/$date")
-                            }),
-                        verticalAlignment = Alignment.CenterVertically
+                            })
                     ) {
-                        type.icon()
+                        Row(
+                            modifier = Modifier
+                                .background(
+                                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    shape = RoundedCornerShape(16.dp))
+                                .padding(16.dp)
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            type.icon()
 
-                        Spacer(Modifier.width(12.dp))
+                            Spacer(Modifier.width(12.dp))
 
-                        Text(
-                            text = type.name,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.labelLarge
-                        )
+                            Text(
+                                text = type.name,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        }
                     }
                 }
             }
