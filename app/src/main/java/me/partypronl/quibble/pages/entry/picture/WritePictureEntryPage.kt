@@ -4,22 +4,25 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import me.partypronl.quibble.R
 
 @Composable
@@ -61,7 +65,7 @@ fun WritePictureEntryPage(
     }
 
     Column(
-        modifier = Modifier.padding(innerPadding).padding(16.dp)
+        modifier = Modifier.padding(innerPadding).padding(16.dp).verticalScroll(rememberScrollState()).fillMaxSize()
     ) {
         Spacer(Modifier.height(8.dp))
 
@@ -87,19 +91,19 @@ fun WritePictureEntryPage(
 
         Spacer(Modifier.height(16.dp))
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1F)
-                .clip(MaterialTheme.shapes.large)
-                .background(MaterialTheme.colorScheme.surfaceContainer)
-                .clickable {
-                    launcher.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
-                },
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            if(imageURI == "") {
+        if(imageURI == "") {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1F)
+                    .clip(MaterialTheme.shapes.large)
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .clickable {
+                        launcher.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+                    },
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.baseline_photo_camera_back_24),
                     contentDescription = "Camera",
@@ -116,9 +120,21 @@ fun WritePictureEntryPage(
                 Text(
                     text = "Click anywhere on this box"
                 )
-            } else {
-                // Render image
             }
+        } else {
+            val painter = rememberAsyncImagePainter(imageURI)
+            Image(
+                painter = painter,
+                contentDescription = "Selected image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(MaterialTheme.shapes.large)
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .aspectRatio(1f)
+                    .clickable {
+                        launcher.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+                    }
+            )
         }
 
         Spacer(Modifier.height(8.dp))
