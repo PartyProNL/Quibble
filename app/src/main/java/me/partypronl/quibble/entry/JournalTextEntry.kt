@@ -16,6 +16,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -23,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import me.partypronl.quibble.R
 import me.partypronl.quibble.data.DatabaseManager
 import me.partypronl.quibble.data.models.JournalTextEntryModel
+import me.partypronl.quibble.pages.entry.CardManageDropdownMenu
 
 class JournalTextEntry: JournalEntryType(
     "text",
@@ -72,9 +77,10 @@ class JournalTextEntry: JournalEntryType(
                 }
             }
 
+            var dropdownOpen by remember { mutableStateOf(false) }
             IconButton(
                 onClick = {
-
+                    dropdownOpen = true
                 },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -84,6 +90,13 @@ class JournalTextEntry: JournalEntryType(
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = "Options",
                     tint = MaterialTheme.colorScheme.onSurface
+                )
+
+                CardManageDropdownMenu(
+                    expanded = dropdownOpen,
+                    onDismissRequest = { dropdownOpen = false },
+                    onEdit = {},
+                    onDelete = {}
                 )
             }
         }
