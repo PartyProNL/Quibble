@@ -11,6 +11,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import me.partypronl.quibble.pages.entry.column.SelectColumnTypePage
+import me.partypronl.quibble.pages.entry.column.SelectColumnTypeTopBar
 import me.partypronl.quibble.pages.entry.text.WriteTextEntryPage
 import me.partypronl.quibble.pages.home.HomePage
 import me.partypronl.quibble.pages.home.HomePageCreateFAB
@@ -41,6 +43,12 @@ fun SetupNavGraph(
         )) {
             WriteTextEntryPage(innerPadding, navController, it.arguments!!.getLong("date"))
         }
+
+        composable(Screen.WriteColumnEntry.route, listOf(
+            navArgument("date") { type = NavType.LongType }
+        )) {
+            SelectColumnTypePage(innerPadding, navController, it.arguments!!.getLong("date"))
+        }
     }
 }
 
@@ -48,6 +56,14 @@ fun SetupNavGraph(
 fun getFabForRoute(route: String?, navController: NavController): (@Composable () -> Unit)? {
     return when (route) {
         Screen.Home.route -> {{ HomePageCreateFAB(navController) }}
+        else -> null
+    }
+}
+
+@Composable
+fun getTopAppBarForRoute(route: String?, navController: NavController): (@Composable () -> Unit)? {
+    return when (route) {
+        Screen.WriteColumnEntry.route -> {{ SelectColumnTypeTopBar(navController) }}
         else -> null
     }
 }

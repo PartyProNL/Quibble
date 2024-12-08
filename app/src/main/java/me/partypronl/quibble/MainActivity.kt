@@ -15,6 +15,7 @@ import me.partypronl.quibble.data.DatabaseManager
 import me.partypronl.quibble.routing.QuibbleNavigationBar
 import me.partypronl.quibble.routing.SetupNavGraph
 import me.partypronl.quibble.routing.getFabForRoute
+import me.partypronl.quibble.routing.getTopAppBarForRoute
 import me.partypronl.quibble.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,13 +37,15 @@ class MainActivity : ComponentActivity() {
                     .value?.destination?.route
 
                 val currentFab: @Composable (() -> Unit)? = getFabForRoute(currentDestination, navController)
+                val currentTopAppBar = getTopAppBarForRoute(currentDestination, navController)
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         QuibbleNavigationBar(navController = navController)
                     },
-                    floatingActionButton = { currentFab?.invoke() }
+                    floatingActionButton = { currentFab?.invoke() },
+                    topBar = { currentTopAppBar?.invoke() }
                 ) {
                     SetupNavGraph(navController, it)
                 }
